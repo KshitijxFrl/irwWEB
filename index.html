@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRONWILL</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="symbolRain" aria-hidden="true"></canvas>
+
+  <main>
+    <section id="ironwill" class="page main-tab active" aria-label="IRONWILL main tab">
+      <div class="title-stack">
+        <h1>IRONWILL</h1>
+      </div>
+    </section>
+
+    <section id="architecture" class="page architecture-tab" aria-label="Architecture tab">
+      <div class="page-title architecture-selector-view">
+        <h2>Architecture</h2>
+        <div class="model-selector" aria-label="Available models">
+          <p class="selector-label">Available Model</p>
+          <button class="model-option selected" type="button" id="showArchitectureFlow">
+            <span class="option-cursor">></span>
+            <span>IRONWILL_V1</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="architecture-detail-view" aria-label="IRONWILL V1 architecture detail">
+        <button class="back-button" type="button" id="backToModels">Back</button>
+
+        <div class="model-stats" aria-label="IRONWILL V1 training summary">
+          <div>
+            <span>Parameters</span>
+            <strong>177,271,290</strong>
+          </div>
+          <div>
+            <span>Weight File</span>
+            <strong>677 MB</strong>
+          </div>
+          <div>
+            <span>Dataset</span>
+            <strong>1M+ ARITH / ALG / CALC / TRIG</strong>
+          </div>
+          <div>
+            <span>Train Tokens</span>
+            <strong>500,277,600</strong>
+          </div>
+          <div>
+            <span>Vocab</span>
+            <strong>71,658</strong>
+          </div>
+          <div>
+            <span>Context</span>
+            <strong>512 tokens</strong>
+          </div>
+          <div>
+            <span>Trained On</span>
+            <strong>July 8, 2026</strong>
+          </div>
+          <div>
+            <span>Training Run</span>
+            <strong>10,000 steps</strong>
+          </div>
+        </div>
+
+        <div class="architecture-flow" aria-label="IRONWILL V1 architecture flow">
+          <div class="flow-track">
+            <article class="flow-card compact">
+              <span class="flow-index">01</span>
+              <h3>Token Embedding</h3>
+              <p>token ids -> d_model vectors</p>
+            </article>
+
+            <article class="flow-card transformer">
+              <span class="flow-index">02</span>
+              <h3>Transformer Blocks x4</h3>
+              <div class="inner-flow">
+                <span>RMSNorm</span>
+                <span>RoPE</span>
+                <span>GQA Attention</span>
+                <span>Residual Add</span>
+                <span>RMSNorm</span>
+                <span>MoE FFN</span>
+                <span>Residual Add</span>
+              </div>
+            </article>
+
+            <article class="flow-card moe">
+              <span class="flow-index">03</span>
+              <h3>MoE Detail</h3>
+              <div class="inner-flow">
+                <span>Router</span>
+                <span>Expert 1</span>
+                <span>Expert 2</span>
+                <span>Expert 3</span>
+                <span>Expert 4</span>
+                <span>SwiGLU</span>
+              </div>
+            </article>
+
+            <article class="flow-card compact">
+              <span class="flow-index">04</span>
+              <h3>Final RMSNorm</h3>
+              <p>stabilize final hidden state</p>
+            </article>
+
+            <article class="flow-card compact">
+              <span class="flow-index">05</span>
+              <h3>Output Head</h3>
+              <p>d_model -> vocab logits</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dataset" class="page dataset-tab" aria-label="Dataset tab">
+      <div class="dataset-shell">
+        <aside class="dataset-menu" aria-label="Dataset categories">
+          <p class="selector-label">Dataset Categories</p>
+          <div class="dataset-menu-item active">
+            <span class="option-cursor">></span>
+            <span>Olympian_01</span>
+          </div>
+          <div class="dataset-menu-item">
+            <span>Olympian_02</span>
+          </div>
+          <div class="dataset-menu-item">
+            <span>Olympian_03</span>
+          </div>
+          <div class="dataset-menu-item">
+            <span>Olympian_04</span>
+          </div>
+        </aside>
+
+        <section class="dataset-brief" aria-label="Dataset description">
+          <span class="terminal-kicker">DATASET / IRONWILL_V1</span>
+          <h2>Template-built math data</h2>
+          <p>
+            The dataset is split into different math categories. Each category has its own templates,
+            and those templates include chain-of-thought style steps with small variations in the
+            reasoning and wording.
+          </p>
+          <p>
+            From those templates, the dataset was expanded into more than 1M data points across
+            arithmetic, algebra, calculus, and trigonometry.
+          </p>
+
+          <div class="dataset-split" aria-label="Dataset split">
+            <div>
+              <span>Train</span>
+              <strong>80%</strong>
+            </div>
+            <div>
+              <span>Test</span>
+              <strong>10%</strong>
+            </div>
+            <div>
+              <span>Validation</span>
+              <strong>10%</strong>
+            </div>
+          </div>
+
+          <button class="download-button" type="button">Download Dataset Zip</button>
+        </section>
+      </div>
+    </section>
+
+    <section id="timeline" class="page framework-tab" aria-label="Threminent framework tab">
+      <div class="framework-shell">
+        <section class="framework-intro" aria-label="Threminent framework description">
+          <span class="terminal-kicker">THREMINENT / C++ CUDA FRAMEWORK</span>
+          <h2>Threminent</h2>
+          <p>
+            Threminent is a lightweight GPU-based training framework built with C++ and CUDA.
+            The goal was to keep it quick to hop on, easy to extend, and direct enough to deliver
+            a working LLM training loop without hiding the moving parts.
+          </p>
+          <p>
+            It handles tensors, CUDA kernels, model layers, optimizer steps, checkpoints, training
+            assembly, and inference in one small codebase.
+          </p>
+          <a class="download-button" href="https://github.com/KshitijxFrl/Threminent" target="_blank" rel="noopener noreferrer">Try Threminent</a>
+        </section>
+
+        <section class="framework-grid" aria-label="Framework features">
+          <article class="feature-tile">
+            <h3>Tensor()</h3>
+            <p><strong>In:</strong> shape + data</p>
+            <p><strong>Out:</strong> CPU/GPU tensor storage</p>
+          </article>
+          <article class="feature-tile">
+            <h3>Embedding()</h3>
+            <p><strong>In:</strong> token ids</p>
+            <p><strong>Out:</strong> token vectors</p>
+          </article>
+          <article class="feature-tile">
+            <h3>Linear()</h3>
+            <p><strong>In:</strong> hidden vectors</p>
+            <p><strong>Out:</strong> projected vectors</p>
+          </article>
+          <article class="feature-tile">
+            <h3>RMSNormal()</h3>
+            <p><strong>In:</strong> activations</p>
+            <p><strong>Out:</strong> normalized activations</p>
+          </article>
+          <article class="feature-tile">
+            <h3>RoPE()</h3>
+            <p><strong>In:</strong> Q/K positions</p>
+            <p><strong>Out:</strong> position-aware Q/K</p>
+          </article>
+          <article class="feature-tile">
+            <h3>AttentionGQA()</h3>
+            <p><strong>In:</strong> Q, K, V tensors</p>
+            <p><strong>Out:</strong> attention output</p>
+          </article>
+          <article class="feature-tile">
+            <h3>ResidualAdd()</h3>
+            <p><strong>In:</strong> input + layer output</p>
+            <p><strong>Out:</strong> residual stream</p>
+          </article>
+          <article class="feature-tile">
+            <h3>SwiGLU()</h3>
+            <p><strong>In:</strong> hidden vectors</p>
+            <p><strong>Out:</strong> gated FFN output</p>
+          </article>
+          <article class="feature-tile">
+            <h3>MoE()</h3>
+            <p><strong>In:</strong> token activations</p>
+            <p><strong>Out:</strong> routed expert output</p>
+          </article>
+          <article class="feature-tile">
+            <h3>crossEntropyLoss()</h3>
+            <p><strong>In:</strong> logits + labels</p>
+            <p><strong>Out:</strong> loss + logits grad</p>
+          </article>
+          <article class="feature-tile">
+            <h3>AdamW()</h3>
+            <p><strong>In:</strong> parameters + gradients</p>
+            <p><strong>Out:</strong> updated weights</p>
+          </article>
+          <article class="feature-tile">
+            <h3>FileHandler()</h3>
+            <p><strong>In:</strong> model modules</p>
+            <p><strong>Out:</strong> saved/loaded weights</p>
+          </article>
+          <article class="feature-tile">
+            <h3>TokenUtility()</h3>
+            <p><strong>In:</strong> jsonl text</p>
+            <p><strong>Out:</strong> vocab + token bins</p>
+          </article>
+          <article class="feature-tile">
+            <h3>llmAssembly()</h3>
+            <p><strong>In:</strong> model + token files</p>
+            <p><strong>Out:</strong> training loop</p>
+          </article>
+          <article class="feature-tile">
+            <h3>llmInference()</h3>
+            <p><strong>In:</strong> prompt + weights</p>
+            <p><strong>Out:</strong> generated text</p>
+          </article>
+          <article class="feature-tile">
+            <h3>CUDA Kernels</h3>
+            <p><strong>In:</strong> layer tensors</p>
+            <p><strong>Out:</strong> GPU-accelerated ops</p>
+          </article>
+        </section>
+      </div>
+    </section>
+
+    <section id="download" class="page download-tab" aria-label="Model download tab">
+      <div class="download-shell">
+        <article class="model-download-card">
+          <span class="terminal-kicker">MODEL / CHECKPOINT</span>
+          <h2>IRONWILL_V1</h2>
+          <p>
+            A 177M parameter model trained on roughly 5 dollar compute on an RTX 4090,
+            using micro batch training.
+          </p>
+          <div class="download-actions">
+            <a class="download-button" href="https://github.com/KshitijxFrl/IRONWILL" target="_blank" rel="noopener noreferrer">Model</a>
+            <button class="download-button" type="button">Weights</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-dock" aria-label="Project sections">
+    <a class="active" href="#ironwill" data-page-link="ironwill">IRONWILL</a>
+    <a href="#architecture" data-page-link="architecture">Architecture</a>
+    <a href="#dataset" data-page-link="dataset">Dataset</a>
+    <a href="#timeline" data-page-link="timeline">Threminent</a>
+    <a href="#download" data-page-link="download">Model Download</a>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
