@@ -1167,6 +1167,32 @@ body.inference-open .inference-trigger {
     padding: 0 44vw;
   }
 
+  .flow-card,
+  .flow-card.transformer,
+  .flow-card.moe {
+    flex-basis: calc(100vw - 72px);
+    max-width: 330px;
+    min-height: 210px;
+    padding: 18px;
+  }
+
+  .flow-card.active {
+    transform: translateY(-14px) scale(1.012);
+  }
+
+  .flow-card h3 {
+    font-size: 1rem;
+  }
+
+  .flow-card p {
+    font-size: 0.78rem;
+  }
+
+  .inner-flow span {
+    padding: 5px 7px;
+    font-size: 0.7rem;
+  }
+
   .model-stats {
     top: 76px;
     grid-template-columns: repeat(2, minmax(0, 1fr));
