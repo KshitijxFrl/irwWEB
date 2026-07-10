@@ -289,6 +289,48 @@
     </section>
   </main>
 
+  <button class="inference-trigger" type="button" id="openInference">Inference Samples</button>
+
+  <section class="inference-panel" id="inferencePanel" aria-label="IRONWILL inference samples" aria-hidden="true">
+    <div class="inference-terminal">
+      <div class="inference-header">
+        <div>
+          <span class="terminal-kicker">IRONWILL_V1 / SAVED RUNS</span>
+          <h2>Inference Samples</h2>
+        </div>
+        <button class="inference-close" type="button" id="closeInference">Close</button>
+      </div>
+
+      <p class="inference-note">
+        These are saved IRONWILL_V1 outputs from a few fixed prompts. IRONWILL_V1 was trained
+        for 10,000 steps on the Olympian_01 dataset with micro-batch training on a single NVIDIA GPU.
+        For the full experience, run the model locally with an NVIDIA GPU and the released weights.
+      </p>
+
+      <div class="inference-workbench">
+        <aside class="sample-list" aria-label="Saved inference prompts">
+          <button class="sample-option active" type="button" data-sample="calc_sin">
+            <span class="option-cursor">></span>
+            <span>calc_sin</span>
+          </button>
+          <button class="sample-option" type="button" data-sample="trig_sin90">
+            <span>trig_sin90</span>
+          </button>
+          <button class="sample-option" type="button" data-sample="arith_add">
+            <span>arith_add</span>
+          </button>
+          <button class="sample-option" type="button" data-sample="calc_x2">
+            <span>calc_x2</span>
+          </button>
+        </aside>
+
+        <div class="terminal-output" aria-live="polite">
+          <pre id="sampleTerminal"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <nav class="bottom-dock" aria-label="Project sections">
     <a class="active" href="#ironwill" data-page-link="ironwill">IRONWILL</a>
     <a href="#architecture" data-page-link="architecture">Architecture</a>

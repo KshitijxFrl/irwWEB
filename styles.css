@@ -818,6 +818,203 @@ h1 {
   margin-top: 24px;
 }
 
+.inference-trigger {
+  position: fixed;
+  right: max(24px, calc((100vw - 760px) / 2 - 170px));
+  bottom: 28px;
+  z-index: 6;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(240, 230, 200, 0.24);
+  border-radius: var(--panel-radius);
+  background: rgba(5, 5, 5, 0.62);
+  color: rgba(255, 248, 226, 0.82);
+  font-family: var(--terminal-font);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 220ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+  backdrop-filter: blur(8px);
+}
+
+body:not(.home-active) .inference-trigger,
+body.inference-open .inference-trigger {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.inference-trigger:hover {
+  border-color: rgba(240, 230, 200, 0.44);
+  background: rgba(240, 230, 200, 0.08);
+  color: rgba(255, 253, 244, 0.96);
+}
+
+.inference-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 7;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.985);
+  transition: opacity 260ms ease, transform 260ms ease;
+}
+
+.inference-panel.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.inference-panel::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(5px);
+}
+
+.inference-terminal {
+  position: relative;
+  width: min(980px, calc(100vw - 42px));
+  max-height: min(720px, calc(100vh - 120px));
+  padding: clamp(18px, 3vw, 28px);
+  overflow: hidden;
+  background: rgba(5, 5, 5, 0.86);
+  border: 1px solid rgba(255, 253, 244, 0.18);
+  border-radius: var(--panel-radius);
+  box-shadow:
+    inset 3px 0 0 rgba(255, 253, 244, 0.10),
+    0 0 36px rgba(0, 0, 0, 0.62);
+}
+
+.inference-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.inference-header h2 {
+  margin: 0;
+  color: rgba(255, 253, 244, 0.92);
+  font-size: clamp(2rem, 5vw, 4.6rem);
+  line-height: 0.9;
+  text-shadow:
+    0 0 8px rgba(255, 253, 244, 0.12),
+    0 0 34px rgba(255, 253, 244, 0.06);
+}
+
+.inference-close {
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid rgba(255, 253, 244, 0.18);
+  border-radius: var(--micro-radius);
+  background: rgba(5, 5, 5, 0.72);
+  color: rgba(255, 253, 244, 0.68);
+  font-family: var(--terminal-font);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.inference-close:hover {
+  color: rgba(255, 253, 244, 0.95);
+  border-color: rgba(255, 253, 244, 0.34);
+}
+
+.inference-note {
+  max-width: 86ch;
+  margin: 18px 0 20px;
+  color: rgba(255, 253, 244, 0.62);
+  font-family: var(--terminal-font);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.inference-workbench {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.sample-list,
+.terminal-output {
+  border: 1px solid rgba(255, 253, 244, 0.16);
+  border-radius: var(--panel-radius);
+  background: rgba(5, 5, 5, 0.72);
+}
+
+.sample-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+}
+
+.sample-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 11px;
+  border: 1px solid rgba(255, 253, 244, 0.10);
+  border-radius: var(--micro-radius);
+  background: rgba(255, 253, 244, 0.035);
+  color: rgba(255, 253, 244, 0.56);
+  font-family: var(--terminal-font);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sample-option.active {
+  border-color: rgba(240, 230, 200, 0.40);
+  background: rgba(240, 230, 200, 0.075);
+  color: rgba(255, 248, 226, 0.92);
+}
+
+.terminal-output {
+  min-height: 330px;
+  padding: 16px;
+  overflow: auto;
+}
+
+.terminal-output pre {
+  min-height: 100%;
+  margin: 0;
+  color: rgba(255, 253, 244, 0.78);
+  font-family: var(--terminal-font);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+.terminal-output pre::after {
+  content: "_";
+  color: rgba(240, 230, 200, 0.92);
+  animation: cursorBlink 900ms steps(2, end) infinite;
+}
+
+@keyframes cursorBlink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+
+  46%,
+  100% {
+    opacity: 0;
+  }
+}
+
 .bottom-dock {
   position: fixed;
   left: 50%;
@@ -899,6 +1096,37 @@ h1 {
   .bottom-dock {
     bottom: 16px;
     justify-content: flex-start;
+  }
+
+  .inference-trigger {
+    right: 16px;
+    bottom: 76px;
+  }
+
+  .inference-panel {
+    padding: 14px;
+  }
+
+  .inference-terminal {
+    max-height: calc(100vh - 34px);
+    overflow-y: auto;
+  }
+
+  .inference-header {
+    align-items: flex-start;
+  }
+
+  .inference-workbench {
+    grid-template-columns: 1fr;
+  }
+
+  .sample-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .terminal-output {
+    min-height: 260px;
   }
 
   .architecture-flow {

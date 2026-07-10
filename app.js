@@ -8,9 +8,36 @@ const backToModels = document.querySelector("#backToModels");
 const architectureFlow = document.querySelector(".architecture-flow");
 const flowTrack = document.querySelector(".flow-track");
 const flowCards = document.querySelectorAll(".flow-card");
+const openInference = document.querySelector("#openInference");
+const closeInference = document.querySelector("#closeInference");
+const inferencePanel = document.querySelector("#inferencePanel");
+const sampleTerminal = document.querySelector("#sampleTerminal");
+const sampleOptions = document.querySelectorAll(".sample-option");
 const symbols = ["+", "-", "*", "/", "?"];
 const streaks = [];
 const starLayerCount = 90;
+const inferenceSamples = {
+  calc_sin: {
+    label: "calc_sin",
+    prompt: "[CALC]\nQuestion:\nDerivative of: sin x\n\nAnswer:",
+    output: "[CALC] Question : Derivative of : sin x Answer : cos x"
+  },
+  trig_sin90: {
+    label: "trig_sin90",
+    prompt: "[TRIG]\nQuestion:\nEvaluate sin(90 degrees)\n\nAnswer:",
+    output: "[TRIG] Question : Evaluate sin ( 90 degrees ) Answer : 1"
+  },
+  arith_add: {
+    label: "arith_add",
+    prompt: "[ARITH]\nQuestion:\n12 + 7\n\nAnswer:",
+    output: "[ARITH] Question : 12 + 7 Answer : 19"
+  },
+  calc_x2: {
+    label: "calc_x2",
+    prompt: "[CALC]\nQuestion:\nFind d/dx of x^2\n\nAnswer:",
+    output: "[CALC] Question : Find d/dx of x^ 2 Answer : 2 x"
+  }
+};
 
 let width = 0;
 let height = 0;
@@ -18,6 +45,7 @@ let density = 0;
 let flowTimer = null;
 let flowStep = 0;
 let screenSwitchTimer = null;
+let typingTimer = null;
 
 function centerActiveCard(card) {
   if(!architectureFlow || !flowTrack || !card) return;
@@ -178,6 +206,10 @@ function showPage(pageId) {
     stopArchitectureFlow();
   }
 
+  if(pageId !== "ironwill") {
+    closeInferencePanel();
+  }
+
   pages.forEach((item) => {
     item.classList.toggle("active", item.id === pageId);
   });
@@ -185,6 +217,89 @@ function showPage(pageId) {
   pageLinks.forEach((link) => {
     link.classList.toggle("active", link.dataset.pageLink === pageId);
   });
+
+  document.body.classList.toggle("home-active", pageId === "ironwill");
+}
+
+function typeTerminal(text) {
+  if(!sampleTerminal) return;
+
+  if(typingTimer) {
+    clearInterval(typingTimer);
+    typingTimer = null;
+  }
+
+  sampleTerminal.textContent = "";
+
+  let index = 0;
+  typingTimer = setInterval(() => {
+    sampleTerminal.textContent = text.slice(0, index);
+    index++;
+
+    if(index > text.length) {
+      clearInterval(typingTimer);
+      typingTimer = null;
+    }
+  }, 13);
+}
+
+function runInferenceSample(sampleKey) {
+  const sample = inferenceSamples[sampleKey] || inferenceSamples.calc_sin;
+
+  sampleOptions.forEach((option) => {
+    const isActive = option.dataset.sample === sampleKey;
+    option.classList.toggle("active", isActive);
+
+    if(isActive && !option.querySelector(".option-cursor")) {
+      const cursor = document.createElement("span");
+      cursor.className = "option-cursor";
+      cursor.textContent = ">";
+      option.prepend(cursor);
+    }
+
+    if(!isActive) {
+      const cursor = option.querySelector(".option-cursor");
+
+      if(cursor) {
+        cursor.remove();
+      }
+    }
+  });
+
+  const terminalText = [
+    `> load sample ${sample.label}`,
+    "> prompt",
+    sample.prompt,
+    "",
+    "> running saved IRONWILL_V1 sample...",
+    "",
+    "> output",
+    sample.output
+  ].join("\n");
+
+  typeTerminal(terminalText);
+}
+
+function openInferencePanel() {
+  if(!inferencePanel) return;
+
+  inferencePanel.classList.add("open");
+  inferencePanel.setAttribute("aria-hidden", "false");
+  document.body.classList.add("inference-open");
+  runInferenceSample("calc_sin");
+}
+
+function closeInferencePanel() {
+  if(!inferencePanel) return;
+
+  inferencePanel.classList.remove("open");
+  inferencePanel.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("inference-open");
+
+  if(typingTimer) {
+    clearInterval(typingTimer);
+    typingTimer = null;
+  }
 }
 
 function updateArchitectureFlow() {
@@ -246,6 +361,28 @@ pageLinks.forEach((link) => {
   });
 });
 
+if(openInference) {
+  openInference.addEventListener("click", openInferencePanel);
+}
+
+if(closeInference) {
+  closeInference.addEventListener("click", closeInferencePanel);
+}
+
+if(inferencePanel) {
+  inferencePanel.addEventListener("click", (event) => {
+    if(event.target === inferencePanel) {
+      closeInferencePanel();
+    }
+  });
+}
+
+sampleOptions.forEach((option) => {
+  option.addEventListener("click", () => {
+    runInferenceSample(option.dataset.sample);
+  });
+});
+
 if(showArchitectureFlow && architecturePage) {
   showArchitectureFlow.addEventListener("click", startArchitectureFlow);
 }
@@ -255,6 +392,12 @@ if(backToModels) {
 }
 
 window.addEventListener("resize", resizeCanvas);
+window.addEventListener("keydown", (event) => {
+  if(event.key === "Escape") {
+    closeInferencePanel();
+  }
+});
 createStars();
 resizeCanvas();
+document.body.classList.add("home-active");
 animate();
