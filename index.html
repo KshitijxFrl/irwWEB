@@ -183,98 +183,86 @@
             It handles tensors, CUDA kernels, model layers, optimizer steps, checkpoints, training
             assembly, and inference in one small codebase.
           </p>
-          <div class="framework-notes" aria-label="Framework notes">
-            <span>C++ core</span>
-            <span>CUDA kernels</span>
-            <span>Train + infer</span>
-          </div>
           <a class="download-button" href="https://github.com/KshitijxFrl/Threminent" target="_blank" rel="noopener noreferrer">Try Threminent</a>
         </section>
 
         <section class="framework-grid" aria-label="Framework features">
-          <p class="feature-group-title">Core</p>
-          <article class="feature-tile" data-kind="memory">
+          <article class="feature-tile">
             <h3>Tensor()</h3>
             <p><strong>In:</strong> shape + data</p>
             <p><strong>Out:</strong> CPU/GPU tensor storage</p>
           </article>
-          <article class="feature-tile" data-kind="tokens">
-            <h3>TokenUtility()</h3>
-            <p><strong>In:</strong> jsonl text</p>
-            <p><strong>Out:</strong> vocab + token bins</p>
-          </article>
-          <article class="feature-tile" data-kind="weights">
-            <h3>FileHandler()</h3>
-            <p><strong>In:</strong> model modules</p>
-            <p><strong>Out:</strong> saved/loaded weights</p>
-          </article>
-
-          <p class="feature-group-title">Layers</p>
-          <article class="feature-tile" data-kind="layer">
+          <article class="feature-tile">
             <h3>Embedding()</h3>
             <p><strong>In:</strong> token ids</p>
             <p><strong>Out:</strong> token vectors</p>
           </article>
-          <article class="feature-tile" data-kind="layer">
+          <article class="feature-tile">
             <h3>Linear()</h3>
             <p><strong>In:</strong> hidden vectors</p>
             <p><strong>Out:</strong> projected vectors</p>
           </article>
-          <article class="feature-tile" data-kind="layer">
+          <article class="feature-tile">
             <h3>RMSNormal()</h3>
             <p><strong>In:</strong> activations</p>
             <p><strong>Out:</strong> normalized activations</p>
           </article>
-          <article class="feature-tile" data-kind="position">
+          <article class="feature-tile">
             <h3>RoPE()</h3>
             <p><strong>In:</strong> Q/K positions</p>
             <p><strong>Out:</strong> position-aware Q/K</p>
           </article>
-          <article class="feature-tile" data-kind="attention">
+          <article class="feature-tile">
             <h3>AttentionGQA()</h3>
             <p><strong>In:</strong> Q, K, V tensors</p>
             <p><strong>Out:</strong> attention output</p>
           </article>
-          <article class="feature-tile" data-kind="layer">
+          <article class="feature-tile">
             <h3>ResidualAdd()</h3>
             <p><strong>In:</strong> input + layer output</p>
             <p><strong>Out:</strong> residual stream</p>
           </article>
-          <article class="feature-tile" data-kind="ffn">
+          <article class="feature-tile">
             <h3>SwiGLU()</h3>
             <p><strong>In:</strong> hidden vectors</p>
             <p><strong>Out:</strong> gated FFN output</p>
           </article>
-          <article class="feature-tile" data-kind="ffn">
+          <article class="feature-tile">
             <h3>MoE()</h3>
             <p><strong>In:</strong> token activations</p>
             <p><strong>Out:</strong> routed expert output</p>
           </article>
-
-          <p class="feature-group-title">Training</p>
-          <article class="feature-tile" data-kind="loss">
+          <article class="feature-tile">
             <h3>crossEntropyLoss()</h3>
             <p><strong>In:</strong> logits + labels</p>
             <p><strong>Out:</strong> loss + logits grad</p>
           </article>
-          <article class="feature-tile" data-kind="optimizer">
+          <article class="feature-tile">
             <h3>AdamW()</h3>
             <p><strong>In:</strong> parameters + gradients</p>
             <p><strong>Out:</strong> updated weights</p>
           </article>
-          <article class="feature-tile" data-kind="runtime">
+          <article class="feature-tile">
+            <h3>FileHandler()</h3>
+            <p><strong>In:</strong> model modules</p>
+            <p><strong>Out:</strong> saved/loaded weights</p>
+          </article>
+          <article class="feature-tile">
+            <h3>TokenUtility()</h3>
+            <p><strong>In:</strong> jsonl text</p>
+            <p><strong>Out:</strong> vocab + token bins</p>
+          </article>
+          <article class="feature-tile">
             <h3>llmAssembly()</h3>
             <p><strong>In:</strong> model + token files</p>
             <p><strong>Out:</strong> training loop</p>
           </article>
-          <article class="feature-tile" data-kind="runtime">
+          <article class="feature-tile">
             <h3>llmInference()</h3>
             <p><strong>In:</strong> prompt + weights</p>
             <p><strong>Out:</strong> generated text</p>
           </article>
-
-          <p class="feature-group-title">GPU path</p>
-          <article class="feature-tile wide" data-kind="cuda">
+          <article class="feature-tile">
             <h3>CUDA Kernels</h3>
             <p><strong>In:</strong> layer tensors</p>
             <p><strong>Out:</strong> GPU-accelerated ops</p>
