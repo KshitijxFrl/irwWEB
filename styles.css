@@ -1105,8 +1105,20 @@ body.inference-open .inference-trigger {
 }
 
 @media (max-width: 520px) {
+  .main-tab {
+    padding: 24px 16px 104px;
+  }
+
+  .main-tab .title-stack {
+    display: grid;
+    width: 100%;
+    place-items: center;
+  }
+
   h1 {
     font-size: 3.6rem;
+    width: 100%;
+    text-align: center;
   }
 
   .bottom-dock {
