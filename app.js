@@ -17,6 +17,7 @@ let height = 0;
 let density = 0;
 let flowTimer = null;
 let flowStep = 0;
+let screenSwitchTimer = null;
 
 function centerActiveCard(card) {
   if(!architectureFlow || !flowTrack || !card) return;
@@ -155,6 +156,23 @@ function showPage(pageId) {
   if(!page) {
     return;
   }
+
+  if(page.classList.contains("active")) {
+    return;
+  }
+
+  document.body.classList.remove("screen-switch");
+  void document.body.offsetWidth;
+  document.body.classList.add("screen-switch");
+
+  if(screenSwitchTimer) {
+    clearTimeout(screenSwitchTimer);
+  }
+
+  screenSwitchTimer = setTimeout(() => {
+    document.body.classList.remove("screen-switch");
+    screenSwitchTimer = null;
+  }, 680);
 
   if(pageId !== "architecture") {
     stopArchitectureFlow();
