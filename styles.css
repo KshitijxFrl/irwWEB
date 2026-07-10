@@ -56,6 +56,23 @@ body::after {
   background-size: 100% 4px, 100% 100%;
 }
 
+@media (min-width: 760px) {
+  body::before {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 36px 36px;
+    opacity: 0.42;
+  }
+
+  body::after {
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.045) 50%, rgba(0, 0, 0, 0.04) 50%),
+      radial-gradient(circle at center, transparent 36%, rgba(0, 0, 0, 0.52));
+    background-size: 100% 4px, 100% 100%;
+  }
+}
+
 #symbolRain {
   position: fixed;
   inset: 0;
