@@ -8,6 +8,9 @@
   --panel-radius: 6px;
   --control-radius: 4px;
   --micro-radius: 3px;
+  --panel-bg: rgba(4, 4, 4, 0.72);
+  --panel-line: rgba(255, 253, 244, 0.14);
+  --panel-line-strong: rgba(255, 253, 244, 0.28);
 }
 
 * {
@@ -167,16 +170,35 @@ h1 {
 }
 
 .model-selector {
+  position: relative;
   width: min(520px, calc(100vw - 48px));
   margin: 34px auto 0;
-  padding: 14px;
-  background: rgba(5, 5, 5, 0.55);
-  border: 1px solid rgba(255, 253, 244, 0.18);
+  padding: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 244, 0.035), transparent 42px),
+    var(--panel-bg);
+  border: 1px solid var(--panel-line-strong);
   border-radius: var(--panel-radius);
   box-shadow:
-    inset 3px 0 0 rgba(255, 253, 244, 0.12),
-    0 0 18px rgba(255, 253, 244, 0.035);
-  backdrop-filter: blur(8px);
+    inset 0 1px 0 rgba(255, 253, 244, 0.10),
+    inset 4px 0 0 rgba(255, 253, 244, 0.12),
+    0 0 18px rgba(255, 253, 244, 0.025);
+  backdrop-filter: blur(4px);
+}
+
+.model-selector::after,
+.dataset-menu::after,
+.dataset-brief::after,
+.framework-intro::after,
+.feature-tile::after,
+.model-download-card::after {
+  position: absolute;
+  right: 12px;
+  bottom: 9px;
+  width: 28px;
+  height: 1px;
+  content: "";
+  background: rgba(255, 253, 244, 0.22);
 }
 
 .selector-label {
@@ -198,7 +220,9 @@ h1 {
   padding: 0 14px;
   border: 1px solid rgba(255, 253, 244, 0.12);
   border-radius: var(--micro-radius);
-  background: rgba(255, 253, 244, 0.05);
+  background:
+    linear-gradient(90deg, rgba(255, 253, 244, 0.055), transparent 42%),
+    rgba(255, 253, 244, 0.035);
   color: rgba(255, 253, 244, 0.56);
   font-family: var(--terminal-font);
   font-size: 0.96rem;
@@ -209,7 +233,9 @@ h1 {
 
 .model-option.selected {
   border-color: rgba(255, 253, 244, 0.82);
-  background: rgba(255, 253, 244, 0.13);
+  background:
+    linear-gradient(90deg, rgba(255, 253, 244, 0.15), transparent 48%),
+    rgba(255, 253, 244, 0.07);
   color: rgba(255, 253, 244, 0.96);
   box-shadow:
     inset 0 0 0 1px rgba(255, 253, 244, 0.16),
@@ -287,22 +313,29 @@ h1 {
   left: 50%;
   display: grid;
   grid-template-columns: repeat(4, minmax(138px, 1fr));
-  gap: 8px;
+  gap: 6px;
   width: min(1120px, calc(100vw - 56px));
   padding: 10px;
-  background: rgba(5, 5, 5, 0.54);
-  border: 1px solid rgba(255, 253, 244, 0.14);
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-line);
   border-radius: var(--panel-radius);
   transform: translateX(-50%);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
 }
 
 .model-stats div {
   min-height: 56px;
-  padding: 8px 10px;
-  border: 1px solid rgba(255, 253, 244, 0.09);
+  padding: 9px 10px 8px;
+  border: 0;
+  border-left: 1px solid rgba(255, 253, 244, 0.16);
   border-radius: var(--micro-radius);
-  background: rgba(255, 253, 244, 0.035);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 244, 0.045), transparent),
+    rgba(255, 253, 244, 0.018);
+}
+
+.model-stats div:first-child {
+  border-left-color: rgba(255, 253, 244, 0.34);
 }
 
 .model-stats span,
@@ -317,12 +350,14 @@ h1 {
   margin-bottom: 6px;
   color: rgba(255, 253, 244, 0.46);
   font-size: 0.68rem;
+  letter-spacing: 0.035em;
   text-transform: uppercase;
 }
 
 .model-stats strong {
   color: rgba(255, 253, 244, 0.88);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .architecture-flow {
@@ -349,12 +384,14 @@ h1 {
   flex: 0 0 290px;
   min-height: 230px;
   padding: 24px;
-  background: rgba(5, 5, 5, 0.62);
-  border: 1px solid rgba(255, 253, 244, 0.15);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 244, 0.03), transparent 52px),
+    rgba(5, 5, 5, 0.68);
+  border: 1px solid var(--panel-line);
   border-radius: var(--panel-radius);
   color: rgba(255, 253, 244, 0.68);
-  box-shadow: 0 0 20px rgba(255, 253, 244, 0.035);
-  backdrop-filter: blur(8px);
+  box-shadow: 0 0 16px rgba(255, 253, 244, 0.025);
+  backdrop-filter: blur(4px);
   transform: translateY(0);
   transition:
     border-color 520ms ease,
@@ -497,13 +534,16 @@ h1 {
 
 .dataset-menu,
 .dataset-brief {
-  background: rgba(5, 5, 5, 0.56);
-  border: 1px solid rgba(255, 253, 244, 0.16);
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 244, 0.025), transparent 54px),
+    var(--panel-bg);
+  border: 1px solid var(--panel-line);
   border-radius: var(--panel-radius);
   box-shadow:
     inset 3px 0 0 rgba(255, 253, 244, 0.10),
     0 0 18px rgba(255, 253, 244, 0.035);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
 }
 
 .dataset-menu {
@@ -608,7 +648,8 @@ h1 {
   padding: 0 18px;
   border: 1px solid rgba(255, 253, 244, 0.32);
   border-radius: var(--panel-radius);
-  background: rgba(255, 253, 244, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 244, 0.10), rgba(255, 253, 244, 0.045));
   color: rgba(255, 253, 244, 0.88);
   font-family: var(--terminal-font);
   font-size: 0.84rem;
@@ -627,26 +668,30 @@ h1 {
 
 .framework-tab {
   align-items: start;
-  padding: 54px 28px 128px;
+  padding: 46px 28px 128px;
   overflow-y: auto;
 }
 
 .framework-shell {
   display: grid;
-  grid-template-columns: minmax(280px, 390px) minmax(0, 1fr);
-  gap: 18px;
-  width: min(1180px, calc(100vw - 48px));
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+  width: min(1160px, calc(100vw - 48px));
 }
 
 .framework-intro,
 .feature-tile {
-  background: rgba(5, 5, 5, 0.56);
-  border: 1px solid rgba(255, 253, 244, 0.16);
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 253, 244, 0.028), transparent 50px),
+    var(--panel-bg);
+  border: 1px solid var(--panel-line);
   border-radius: var(--panel-radius);
   box-shadow:
     inset 3px 0 0 rgba(255, 253, 244, 0.10),
     0 0 18px rgba(255, 253, 244, 0.035);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
 }
 
 .framework-intro {
@@ -675,19 +720,52 @@ h1 {
   line-height: 1.65;
 }
 
+.framework-notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 20px 0 18px;
+}
+
+.framework-notes span {
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 253, 244, 0.12);
+  border-radius: var(--micro-radius);
+  background: rgba(255, 253, 244, 0.032);
+  color: rgba(255, 253, 244, 0.62);
+  font-family: var(--terminal-font);
+  font-size: 0.72rem;
+}
+
 .framework-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 9px;
 }
 
 .feature-tile {
-  min-height: 138px;
-  padding: 16px;
+  min-height: 128px;
+  padding: 30px 15px 15px;
+}
+
+.feature-tile::before {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  content: attr(data-kind);
+  color: rgba(255, 253, 244, 0.38);
+  font-family: var(--terminal-font);
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.feature-tile.wide {
+  grid-column: 1 / -1;
 }
 
 .feature-tile h3 {
-  margin: 0 0 14px;
+  margin: 0 0 12px;
   color: rgba(255, 253, 244, 0.92);
   font-family: var(--terminal-font);
   font-size: 1rem;
@@ -696,11 +774,28 @@ h1 {
 }
 
 .feature-tile p {
-  margin: 7px 0 0;
+  margin: 6px 0 0;
   color: rgba(255, 253, 244, 0.58);
   font-family: var(--terminal-font);
   font-size: 0.82rem;
   line-height: 1.35;
+}
+
+.feature-group-title {
+  grid-column: 1 / -1;
+  margin: 10px 0 2px;
+  padding: 0 0 6px;
+  border-bottom: 1px solid rgba(255, 253, 244, 0.11);
+  color: rgba(255, 253, 244, 0.58);
+  font-family: var(--terminal-font);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.feature-group-title:first-child {
+  margin-top: 0;
 }
 
 .feature-tile strong {
