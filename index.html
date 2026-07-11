@@ -164,7 +164,10 @@
             </div>
           </div>
 
-          <a class="download-button" href="Olympian_01/Olympian_01.zip" download>Download Dataset Zip</a>
+          <div class="dataset-actions">
+            <a class="download-button" href="Olympian_01/Olympian_01.zip" download>Download Dataset Zip</a>
+            <button class="download-button" type="button" id="openDatasetInspector">Inspect Dataset</button>
+          </div>
         </section>
       </div>
     </section>
@@ -288,6 +291,32 @@
       </div>
     </section>
   </main>
+
+  <section class="dataset-inspector" id="datasetInspector" aria-hidden="true" aria-label="Olympian_01 dataset inspector">
+    <div class="dataset-inspector-terminal">
+      <header class="dataset-inspector-header">
+        <div>
+          <span class="terminal-kicker">OLYMPIAN_01 / TRAIN SPLIT</span>
+          <h2 id="datasetInspectorTitle">Inspect Dataset</h2>
+        </div>
+        <button class="dataset-inspector-back" type="button" id="datasetInspectorBack">Back</button>
+      </header>
+
+      <div class="dataset-category-view" id="datasetCategoryView">
+        <p>Select a category to inspect real training examples.</p>
+        <div class="dataset-category-grid">
+          <button type="button" data-dataset-category="arith"><span>[ARITH]</span><small>Arithmetic</small></button>
+          <button type="button" data-dataset-category="alg"><span>[ALG]</span><small>Algebra</small></button>
+          <button type="button" data-dataset-category="calc"><span>[CALC]</span><small>Calculus</small></button>
+          <button type="button" data-dataset-category="trig"><span>[TRIG]</span><small>Trigonometry</small></button>
+        </div>
+      </div>
+
+      <div class="dataset-example-view" id="datasetExampleView" hidden>
+        <div class="dataset-example-list" id="datasetExampleList"></div>
+      </div>
+    </div>
+  </section>
 
   <button class="inference-trigger" type="button" id="openInference">Inference Samples</button>
 

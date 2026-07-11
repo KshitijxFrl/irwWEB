@@ -13,6 +13,14 @@ const closeInference = document.querySelector("#closeInference");
 const inferencePanel = document.querySelector("#inferencePanel");
 const sampleTerminal = document.querySelector("#sampleTerminal");
 const sampleOptions = document.querySelectorAll(".sample-option");
+const openDatasetInspector = document.querySelector("#openDatasetInspector");
+const datasetInspector = document.querySelector("#datasetInspector");
+const datasetInspectorBack = document.querySelector("#datasetInspectorBack");
+const datasetInspectorTitle = document.querySelector("#datasetInspectorTitle");
+const datasetCategoryView = document.querySelector("#datasetCategoryView");
+const datasetExampleView = document.querySelector("#datasetExampleView");
+const datasetExampleList = document.querySelector("#datasetExampleList");
+const datasetCategoryButtons = document.querySelectorAll("[data-dataset-category]");
 const symbols = ["+", "-", "*", "/", "?"];
 const streaks = [];
 const starLayerCount = 90;
@@ -39,6 +47,37 @@ const inferenceSamples = {
   }
 };
 
+const datasetExamples = {
+  arith: {
+    title: "Arithmetic",
+    samples: [
+      `[ARITH]\nQuestion:\n2085 * 5771\n\nStep 1:\nUse the distributive property: 2085 * (5770 + 1).\n\nStep 2:\nThe parts are 12030450 and 2085.\n\nStep 3:\nTogether they give 12032535.\n\nAnswer:\n12032535`,
+      `[ARITH]\nQuestion:\n421 - 168\n\nStep 1:\nA borrow is needed because the lower place in 421 cannot subtract 8 directly.\n\nStep 2:\nBorrow and finish the column subtraction to get 253.\n\nAnswer:\n253`
+    ]
+  },
+  alg: {
+    title: "Algebra",
+    samples: [
+      `[ALG]\nQuestion:\nexpand (23-28)^2\n\nStep 1:\nUse (a-b)^2 = a^2 - 2ab + b^2.\n\nStep 2:\n23^2 = 529, 2*23*28 = 1288, and 28^2 = 784.\n\nAnswer:\n529 - 1288 + 784`,
+      `[ALG]\nQuestion:\nproduct of roots of x^2 + 8x - 19 = 0\n\nStep 1:\nFor ax^2 + bx + c, product of roots is c/a.\n\nStep 2:\nHere it is -19/1 = -19.\n\nAnswer:\n-19`
+    ]
+  },
+  calc: {
+    title: "Calculus",
+    samples: [
+      `[CALC]\nQuestion:\nIntegrate: cos x sin x dx\n\nStep 1:\nUse substitution u = sin x.\n\nStep 2:\nThen du = cos x dx.\n\nStep 3:\nIntegral becomes integral u du.\n\nAnswer:\nsin^2(x)/2 + C`,
+      `[CALC]\nQuestion:\nDerivative of: sin(x^2)\n\nStep 1:\nUse chain rule with u = x^2.\n\nStep 2:\nDerivative of sin u is cos u.\n\nStep 3:\nu' = 2x^1.\n\nAnswer:\n2x^1cos(x^2)`
+    ]
+  },
+  trig: {
+    title: "Trigonometry",
+    samples: [
+      `[TRIG]\nQuestion:\nUse identities to simplify tan(x)cos(x)+sin(x)\n\nStep 1:\ntan(x) = sin(x)/cos(x).\n\nStep 2:\nThen tan(x)cos(x) = sin(x).\n\nStep 3:\nSo the expression is 2sin(x).\n\nAnswer:\n2sin(x)`,
+      `[TRIG]\nQuestion:\nFind the missing opposite side when tan(45 degrees) is used and adjacent is 20.\n\nStep 1:\nUse tan(angle) = opposite/adjacent.\n\nStep 2:\ntan(45 degrees) = 1.\n\nStep 3:\nopposite = 20.\n\nAnswer:\n20`
+    ]
+  }
+};
+
 let width = 0;
 let height = 0;
 let density = 0;
@@ -46,6 +85,7 @@ let flowTimer = null;
 let flowStep = 0;
 let screenSwitchTimer = null;
 let typingTimer = null;
+let activeDatasetCategory = null;
 
 function centerActiveCard(card) {
   if(!architectureFlow || !flowTrack || !card) return;
@@ -302,6 +342,52 @@ function closeInferencePanel() {
   }
 }
 
+function showDatasetCategories() {
+  activeDatasetCategory = null;
+  datasetInspectorTitle.textContent = "Inspect Dataset";
+  datasetCategoryView.hidden = false;
+  datasetExampleView.hidden = true;
+  datasetExampleList.replaceChildren();
+}
+
+function showDatasetExamples(categoryKey) {
+  const category = datasetExamples[categoryKey];
+  if(!category) return;
+
+  activeDatasetCategory = categoryKey;
+  datasetInspectorTitle.textContent = category.title;
+  datasetCategoryView.hidden = true;
+  datasetExampleView.hidden = false;
+  datasetExampleList.replaceChildren();
+
+  category.samples.forEach((sample, index) => {
+    const example = document.createElement("pre");
+    example.className = "dataset-example";
+    example.setAttribute("aria-label", `${category.title} example ${index + 1}`);
+    example.textContent = sample;
+    datasetExampleList.appendChild(example);
+  });
+}
+
+function openDatasetInspectorPanel() {
+  if(!datasetInspector) return;
+  showDatasetCategories();
+  datasetInspector.classList.add("open");
+  datasetInspector.setAttribute("aria-hidden", "false");
+}
+
+function closeDatasetInspectorPanel() {
+  if(!datasetInspector) return;
+  datasetInspector.classList.remove("open");
+  datasetInspector.setAttribute("aria-hidden", "true");
+  activeDatasetCategory = null;
+}
+
+function handleDatasetBack() {
+  if(activeDatasetCategory) showDatasetCategories();
+  else closeDatasetInspectorPanel();
+}
+
 function updateArchitectureFlow() {
   if(flowCards.length === 0) return;
   let activeCard = null;
@@ -357,8 +443,27 @@ function stopArchitectureFlow() {
 pageLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
+    closeDatasetInspectorPanel();
     showPage(link.dataset.pageLink);
   });
+});
+
+if(openDatasetInspector) {
+  openDatasetInspector.addEventListener("click", openDatasetInspectorPanel);
+}
+
+if(datasetInspectorBack) {
+  datasetInspectorBack.addEventListener("click", handleDatasetBack);
+}
+
+if(datasetInspector) {
+  datasetInspector.addEventListener("click", (event) => {
+    if(event.target === datasetInspector) closeDatasetInspectorPanel();
+  });
+}
+
+datasetCategoryButtons.forEach((button) => {
+  button.addEventListener("click", () => showDatasetExamples(button.dataset.datasetCategory));
 });
 
 if(openInference) {
@@ -395,6 +500,7 @@ window.addEventListener("resize", resizeCanvas);
 window.addEventListener("keydown", (event) => {
   if(event.key === "Escape") {
     closeInferencePanel();
+    closeDatasetInspectorPanel();
   }
 });
 createStars();
