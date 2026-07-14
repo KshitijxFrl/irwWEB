@@ -4,6 +4,7 @@
   --white: #fffdf4;
   --soft-white: rgba(255, 253, 244, 0.84);
   --dim-white: rgba(245, 240, 232, 0.18);
+  --display-font: "Archivo Black", "Arial Black", Impact, "Trebuchet MS", system-ui, sans-serif;
   --terminal-font: "Courier Prime", "IBM Plex Mono", "Lucida Console", Monaco, monospace;
   --panel-radius: 6px;
   --control-radius: 4px;
@@ -28,7 +29,7 @@ body {
     radial-gradient(circle at center, rgba(255, 255, 255, 0.055), transparent 34rem),
     linear-gradient(180deg, #050505, var(--black));
   color: var(--white);
-  font-family: "Arial Black", Impact, "Trebuchet MS", system-ui, sans-serif;
+  font-family: var(--display-font);
   line-height: 1.5;
 }
 
